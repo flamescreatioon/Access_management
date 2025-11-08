@@ -1,0 +1,39 @@
+{
+  "name": "access_management",
+  "version": "1.0.0",
+  "description": "Access Management System - A comprehensive system for managing user access, permissions, and roles",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write \"src/**/*.js\" \"tests/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.js\" \"tests/**/*.js\""
+  },
+  "keywords": [
+    "access-management",
+    "authentication",
+    "authorization",
+    "permissions",
+    "roles",
+    "user-management"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}
