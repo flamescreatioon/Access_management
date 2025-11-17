@@ -1,11 +1,12 @@
 {
   "name": "access_management",
   "version": "1.0.0",
+  "type": "module",
   "description": "Access Management System - A comprehensive system for managing user access, permissions, and roles",
-  "main": "src/index.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "lint": "eslint src/**/*.js",

@@ -66,3 +66,4 @@ prisma/schema.prisma
 .gitignore
 prisma/migrations/migration_lock.toml
 prisma/migrations/20251109143927_init/migration.sql
+prisma/migrations/20251117173841_add_user_fields/migration.sql
