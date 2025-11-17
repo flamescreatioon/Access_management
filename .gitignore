@@ -53,3 +53,16 @@ Thumbs.db
 
 # Optional REPL history
 .node_repl_history
+
+/src/generated/prisma
+Access Management.txt
+.gitignore
+drawSQL-pgsql-export-2025-11-09.sql
+prisma.config.ts
+.gitignore
+.gitignore
+.gitignore
+prisma/schema.prisma
+.gitignore
+prisma/migrations/migration_lock.toml
+prisma/migrations/20251109143927_init/migration.sql
