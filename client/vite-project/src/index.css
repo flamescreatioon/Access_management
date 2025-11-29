@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand palette variables */
+    --brand-main: 211 71% 53%; /* #3083DC */
+    --brand-teal: 170 61% 47%; /* #2EBFA5 */
+    --brand-light: 76 100% 95%; /* #F8FFE5 */
+    --brand-soft-blue: 205 39% 70%; /* #95B8D1 */
+    --brand-white: 0 0% 100%; /* #FFFFFF */
+    --brand-black: 0 0% 0%; /* #000000 */
+
+    /* Semantic mapping */
+    --background: var(--brand-light);
+    --foreground: 211 71% 20%;
+    --card: var(--brand-white);
+    --card-foreground: 211 71% 20%;
+    --popover: var(--brand-white);
+    --popover-foreground: 211 71% 20%;
+    --primary: var(--brand-main);
+    --primary-foreground: var(--brand-white);
+    --secondary: var(--brand-soft-blue);
+    --secondary-foreground: 211 71% 20%;
+    --muted: 205 39% 92%;
+    --muted-foreground: 205 25% 35%;
+    --accent: var(--brand-teal);
+    --accent-foreground: var(--brand-white);
+    --destructive: 0 84% 60%;
+    --destructive-foreground: var(--brand-white);
+    --border: var(--brand-soft-blue);
+    --input: var(--brand-soft-blue);
+    --ring: var(--brand-main);
+    --radius: 0.5rem;
+    --chart-1: var(--brand-main);
+    --chart-2: var(--brand-teal);
+    --chart-3: 205 39% 55%;
+    --chart-4: 211 71% 40%;
+    --chart-5: 170 61% 30%;
+  }
+
+  .dark {
+    --background: 211 71% 12%;
+    --foreground: var(--brand-white);
+    --card: 211 71% 16%;
+    --card-foreground: var(--brand-white);
+    --popover: 211 71% 16%;
+    --popover-foreground: var(--brand-white);
+    --primary: var(--brand-main);
+    --primary-foreground: var(--brand-white);
+    --secondary: 205 39% 30%;
+    --secondary-foreground: var(--brand-white);
+    --muted: 211 25% 22%;
+    --muted-foreground: 205 20% 70%;
+    --accent: var(--brand-teal);
+    --accent-foreground: var(--brand-black);
+    --destructive: 0 62% 40%;
+    --destructive-foreground: var(--brand-white);
+    --border: 211 25% 30%;
+    --input: 211 25% 30%;
+    --ring: var(--brand-main);
+    --chart-1: var(--brand-main);
+    --chart-2: var(--brand-teal);
+    --chart-3: 205 39% 55%;
+    --chart-4: 211 71% 40%;
+    --chart-5: 170 61% 30%;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+

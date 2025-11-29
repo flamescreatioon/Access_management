@@ -61,7 +61,7 @@ export const checkIn = async (req, res) => {
       return res.status(400).json({ error: 'Code expired' })
 
     const user = await prisma.user.findUnique({ where: { id: entry.userId } })
-    if (!user.approved)
+    if (!user || user.status !== 'approved')
       return res.status(403).json({ error: 'User not approved' })
 
     // Mark code as used
