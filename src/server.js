@@ -4,7 +4,7 @@ import cors from 'cors';
 import authRoutes from './routes/auth.js';
 import accessRoutes from './routes/access.js';
 import adminRoutes from './routes/admin.js';
-
+import rolesRoutes from './routes/roles.js';
 
 dotenv.config();
 
@@ -21,6 +21,7 @@ app.use((req,res,next)=>{ console.log(`${req.method} ${req.url}`); next(); });
 app.use('/api/auth', authRoutes);
 app.use('/api/access', accessRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api', rolesRoutes);
 
 app.get('/', (req, res) => {
     res.send('Access Management System API is running');

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button.jsx"
 import { cn } from "@/lib/utils"
+import { Sun } from "lucide-react"
 
 export default function Topbar({ onSidebarToggle }) {
   const [dark, setDark] = useState(false)
@@ -12,12 +13,11 @@ export default function Topbar({ onSidebarToggle }) {
     } else {
       document.documentElement.classList.remove("dark")
     }
-  }
+  } 
 
   return (
     <header className="h-14 border-b bg-card flex items-center justify-between px-4">
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="sm" onClick={onSidebarToggle}>Toggle</Button>
         <div className="relative">
           <input
             placeholder="Search..."
@@ -26,8 +26,10 @@ export default function Topbar({ onSidebarToggle }) {
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm">Notifications</Button>
-        <Button variant="outline" size="sm" onClick={toggleTheme}>{dark ? "Light" : "Dark"}</Button>
+        <div onClick={toggleTheme}>
+          <Sun/>
+        </div>
+        {/* <Button variant="outline" size="sm" className={cn("bg-sky-500 text-accent-foreground hover:bg-sky-700")} >{dark ? "Light" : "Dark"}</Button> */}
         <div className={cn("h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold")}>AD</div>
       </div>
     </header>

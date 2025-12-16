@@ -1,24 +1,53 @@
-import { createContext, useContext, useState } from 'react'
-import { nanoid } from 'nanoid'
+import { createContext, useContext, useState, useEffect } from 'react'
+import { fetchPermissions } from '@/lib/dataFetcher.js'
+import { useAuth } from '@/context/AuthContext.jsx'
 
 const PermissionsContext = createContext()
 export const usePermissions = () => useContext(PermissionsContext)
 
 const initialPermissions = [
-  { id: nanoid(), resource: 'users', action: 'read', description: 'View users list' },
-  { id: nanoid(), resource: 'users', action: 'write', description: 'Create or edit users' },
-  { id: nanoid(), resource: 'roles', action: 'manage', description: 'Manage roles & permissions' },
-  { id: nanoid(), resource: 'logs', action: 'read', description: 'View audit logs' }
+  { id: 'user:create', name: 'Create Users', category: 'User Management' },
+  { id: 'user:read', name: 'Read Users', category: 'User Management' },
+  { id: 'user:update', name: 'Update Users', category: 'User Management' },
+  { id: 'user:delete', name: 'Delete Users', category: 'User Management' },
+  { id: 'role:manage', name: 'Manage Roles', category: 'Role Management' },
+  { id: 'report:generate', name: 'Generate Reports', category: 'Reports' },
+  { id: 'report:view', name: 'View Reports', category: 'Reports' },
+  { id: 'access:grant', name: 'Grant Access', category: 'Access Control' },
+  { id: 'access:revoke', name: 'Revoke Access', category: 'Access Control' }
 ]
 
 export function PermissionsProvider({ children }) {
   const [permissions, setPermissions] = useState(initialPermissions)
-  const addPermission = (data) => setPermissions(p => [...p, { id: nanoid(), ...data }])
+  const [loading, setLoading] = useState(false)
+  const { token } = useAuth()
+
+  const fetchPermissionsFromBackend = async () => {
+    if (!token) return
+    setLoading(true)
+    try {
+      const data = await fetchPermissions(token)
+      setPermissions(data.permissions || initialPermissions)
+    } catch (error) {
+      console.error('Failed to fetch permissions:', error)
+      setPermissions(initialPermissions)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (token) {
+      fetchPermissionsFromBackend()
+    }
+  }, [token])
+
+  const addPermission = (data) => setPermissions(p => [...p, { id: data.id, ...data }])
   const updatePermission = (id, patch) => setPermissions(p => p.map(x => x.id === id ? { ...x, ...patch } : x))
   const removePermission = (id) => setPermissions(p => p.filter(x => x.id !== id))
 
   return (
-    <PermissionsContext.Provider value={{ permissions, addPermission, updatePermission, removePermission }}>
+    <PermissionsContext.Provider value={{ permissions, loading, addPermission, updatePermission, removePermission, refresh: fetchPermissionsFromBackend }}>
       {children}
     </PermissionsContext.Provider>
   )

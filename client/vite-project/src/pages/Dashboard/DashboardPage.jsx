@@ -4,24 +4,60 @@ import { useRoles } from '@/context/RolesContext.jsx'
 import { usePermissions } from '@/context/PermissionsContext.jsx'
 import { useRequests } from '@/context/RequestsContext.jsx'
 import { useLogs } from '@/context/LogsContext.jsx'
+import { useAuth } from '@/context/AuthContext.jsx'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card.jsx'
-import { Users, Shield, KeyRound, MailQuestion } from 'lucide-react'
+import { Users, Shield, KeyRound, MailQuestion, RefreshCw } from 'lucide-react'
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from 'recharts'
+import { refreshDashboardData } from '@/lib/dataFetcher.js'
+import { useEffect, useState } from 'react'
 
 export default function DashboardPage(){
-  const { users } = useUsers()
-  const { roles } = useRoles()
-  const { permissions } = usePermissions()
+  const { users, refresh: refreshUsers } = useUsers()
+  const { roles, refresh: refreshRoles } = useRoles()
+  const { permissions, refresh: refreshPermissions } = usePermissions()
   const { requests } = useRequests()
   const { logs } = useLogs()
+  const { token } = useAuth()
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
+  // Auto-refresh data when component mounts or token changes
+  useEffect(() => {
+    if (token) {
+      handleRefreshDashboard()
+    }
+  }, [token])
+
+  const handleRefreshDashboard = async () => {
+    setIsRefreshing(true)
+    try {
+      await refreshDashboardData(token, {
+        onUsersUpdate: refreshUsers,
+        onRolesUpdate: refreshRoles,
+        onPermissionsUpdate: refreshPermissions,
+        onError: (error) => console.error('Dashboard refresh error:', error)
+      })
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
 
   const roleDistribution = roles.map(r => ({ name: r.name, value: users.filter(u => u.role === r.name).length }))
   const requestStatusData = ['pending','approved','rejected'].map(s => ({ name: s, value: requests.filter(r => r.status === s).length }))
   const requestColors = { pending: '#f59e0b', approved: '#10b981', rejected: '#ef4444' }
 
   return (
-    <div>
-      <PageHeader title="Dashboard" />
+    <div className="bg-white min-h-screen">
+      <div className="flex items-center justify-between mb-6">
+        <PageHeader title="Dashboard" />
+        <button
+          onClick={handleRefreshDashboard}
+          disabled={isRefreshing}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          {isRefreshing ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

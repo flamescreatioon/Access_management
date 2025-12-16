@@ -56,5 +56,12 @@ export const api = {
     generateText: (token) => request('/access/generate/text', { method:'POST', token }),
     generateQR: (token) => request('/access/generate/qr', { method:'POST', token }),
     checkIn: (token, code) => request('/access/checkin', { method:'POST', token, body:{ code } }),
+  },
+  roles: {
+    listRoles: (token) => request('/roles', { token }),
+    getRoleById: (token, id) => request(`/roles/${id}`, { token }),
+    createRole: (token, payload) => request('/roles', { method:'POST', token, body: payload }),
+    updateRole: (token, id, payload) => request(`/roles/${id}`, { method:'PATCH', token, body: payload }),
+    deleteRole: (token, id) => request(`/roles/${id}`, { method:'DELETE', token }),
   }
 };
